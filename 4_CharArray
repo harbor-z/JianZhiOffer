@@ -1,0 +1,49 @@
+// 4.字符数组
+void charChange(char c[], int length);
+void main(){
+	vector<thread> threads(4);
+	unsigned int num_thread = thread::hardware_concurrency();
+	cout << num_thread << endl;
+}
+
+
+void charChange(char c[], int length)
+{
+	if (c == NULL || length == 0)// 增加安全性1
+	{
+		return;
+	}
+
+	int num = 0;// 空格个数
+	int i = 0;// 指针
+	while (c[i] != '\0')
+	{
+		if (c[i] == '\x20')
+		{
+			num++;
+		}
+		i++;
+	}
+	cout << i << endl;
+	cout << num << endl;
+  
+	if (i + num * 2 >= length)// 增加安全性2
+	{
+		return;
+	}
+  
+	while ((--i) >= 0 && num != 0)
+	{
+		if (c[i] != '\x20')
+		{
+			c[i + 2 * num] = c[i];
+		}
+		else
+		{
+			c[i + 2 * num] = '0';
+			c[i + 2 * num - 1] = '2';
+			c[i + 2 * num - 2] = '%';
+			num--;
+		}
+	}
+}
