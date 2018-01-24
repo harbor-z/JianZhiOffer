@@ -1,0 +1,64 @@
+// 6.重建二叉树
+struct  BinaryThreeNode
+{
+	int m_nValue;
+	BinaryThreeNode* m_pLeft;
+	BinaryThreeNode* m_pRight;
+};
+
+
+// 递归打印二叉树，中序遍历
+void printInorder(BinaryThreeNode const * pRoot)
+{
+	if (pRoot == NULL)
+		return;
+
+	if (pRoot->m_pLeft != NULL)
+		printInorder(pRoot->m_pLeft);
+
+	printf("%d\t", pRoot->m_nValue);
+
+	if (pRoot->m_pRight != NULL)
+		printInorder(pRoot->m_pRight);
+
+}
+
+
+// 根据前序遍历数组和中序遍历数组，重建二叉树，！！没有重复数字
+BinaryThreeNode* construct(int* preorder, int* inorder, int length)
+{
+	if (length <= 0 || preorder == NULL || inorder == NULL)
+		return NULL;
+
+	BinaryThreeNode* pRoot = new BinaryThreeNode();
+	pRoot->m_nValue = *preorder;
+
+	int position = 0;// 标记当前元素在中序遍历数组中的位置
+	while (position < length && inorder[position] != pRoot->m_nValue)
+		position++;
+
+	if (position == length)// 没有找到当前元素
+	{
+		printf("Invalid input.\n");
+		exit(0);
+	}
+
+
+	pRoot->m_pLeft = construct(preorder + 1, inorder, position);
+	pRoot->m_pRight = construct(preorder + position + 1, inorder + position + 1, length - position - 1);
+
+	return pRoot;
+}
+
+
+int main()
+{
+	int length = 8;
+	int preorder[8] = { 1, 2, 1, 7, 3, 5, 6, 8};
+	int inorder[8] = { 1, 7, 2, 1, 5, 3, 8, 6};
+
+	BinaryThreeNode* pRoot = construct(preorder, inorder, length);
+	printInorder(pRoot);
+
+	return 0;
+}
