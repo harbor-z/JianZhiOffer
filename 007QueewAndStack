@@ -1,0 +1,50 @@
+// 7.栈和队列
+// std::stack.pop 返回值为void，所以需要先使用top返回栈顶元素
+//用两个栈来实现队列
+template<typename T> class CQueue
+{
+public:
+	CQueue(void);
+	~CQueue(void);
+
+	void appendTail(const T& node);// 队列末尾加元素
+	T deleteHead();// 队列取元素
+
+private:
+	stack<T> stack1;// 用于加元素
+	stack<T> stack2;// 用于取元素
+};
+
+template<typename T> void CQueue<T>::appendTail(const T& node)
+{
+// 	if (node == NULL)// 空值可以存入
+// 		return;
+
+	stack1.push(node);
+}
+
+template<typename T> CQueue<T>::CQueue(void){}
+template<typename T> CQueue<T>::~CQueue(void){}
+
+template<typename T> T CQueue<T>::deleteHead()
+{
+
+	if (stack2.empty())
+	{
+		if (stack1.empty())
+			printf("\nEmpty!\n");
+		else
+		{
+			while (!stack1.empty())
+			{
+				stack2.push(stack1.top());
+				stack1.pop();
+			}
+		}
+	}
+	
+	const T& node = stack2.top();
+	stack2.pop();
+
+	return node;
+}
